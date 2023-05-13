@@ -52,7 +52,13 @@ contract practice {
     }
 
     // 회원 탈퇴 기능
-    
+    function deleteID(string memory _id, string memory _pw) public {
+        for(uint i = 0; i < ID.length; i++) {
+            if(keccak256(bytes(ID[i])) == keccak256(bytes(_id)) && ID_PW[_id] == keccak256(abi.encodePacked(_pw))) {
+                
+            }
+        }
+    }
 
 
 
