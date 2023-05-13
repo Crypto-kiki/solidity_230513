@@ -21,10 +21,39 @@ abi.encodePacked() 사용하기
 
 contract practice {
 
-    mapping(string => string) ID_PW;
+    mapping(string => bytes32) ID_PW;
+    string[] ID;
+    mapping(string => uint) CHECK_PW;
 
+    // 회원가입 + 존재하는 아이디 확인
     function signUp(string memory _id, string memory _pw) public {
-        ID_PW[_id] = _pw;
+        for(uint i = 0; i < ID.length; i++) {
+            if(keccak256(bytes(ID[i])) == keccak256(bytes(_id))) {
+                revert("Already Exist");
+            }
+        }
+        ID_PW[_id] = keccak256(abi.encodePacked(_id, _pw));
+        ID.push(_id);
+    } 
+
+
+    // 로그인 기능 + 비밀번호 오류 5회
+    function signIn(string memory _id, string memory _pw) public returns(bool) {
+        if(ID_PW[_id] == keccak256(abi.encodePacked(_id, _pw))) {
+            return true;
+        } else {
+            if(CHECK_PW[_id] < 5) {
+                CHECK_PW[_id]++;
+            } 
+        }
+        return false;
     }
+
+
+
+    function getID() public view returns(string[] memory) {
+        return ID;
+    }
+
 
 }
