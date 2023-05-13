@@ -44,10 +44,15 @@ contract practice {
         } else {
             if(CHECK_PW[_id] < 5) {
                 CHECK_PW[_id]++;
-            } 
+                return false;
+            } else {
+                revert("Incorrect Password over 5times");
+            }
         }
-        return false;
     }
+
+    // 회원 탈퇴 기능
+    
 
 
 
