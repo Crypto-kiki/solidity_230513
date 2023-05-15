@@ -19,6 +19,27 @@ abi.encodePacked() 사용하기
 * 회원탈퇴 기능 - 회원이 자신의 ID와 PW를 넣고 회원탈퇴 기능을 실행하면 관련 정보 삭제
 */
 
+contract quiz2 {
+    mapping(string => bytes32) ID_PW;
+
+    // 로그인 기능
+    function login(string memory _ID, string memory _PW) public view returns(bool) {
+        return ID_PW[_ID] == keccak256(abi.encodePacked(_ID, _PW));
+    }
+
+    function login2(string memory _ID) public view returns(bytes32) {
+        return ID_PW[_ID];
+    }
+
+    // 회원가입 기능
+    function signIn(string memory _ID, string memory _PW) public {
+        // * 회원가입시 이미 존재한 아이디 체크 여부 기능 - 이미 있는 아이디라면 회원가입 중지
+
+        ID_PW[_ID] = keccak256(abi.encodePacked(_ID, _PW));
+    }
+
+}
+
 contract practice {
 
     mapping(string => bytes32) ID_PW;
@@ -60,11 +81,20 @@ contract practice {
         }
     }
 
-
-
     function getID() public view returns(string[] memory) {
         return ID;
     }
 
+
+}
+
+
+
+contract REQUIRE {
+
+    function Require1(uint _n) public pure returns(uint) {
+        require(_n < 10);
+        return _n * 3;
+    }
 
 }
